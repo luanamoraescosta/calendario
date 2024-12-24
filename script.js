@@ -4,11 +4,10 @@ const clearAllCommitmentsButton = document.getElementById('clearAllCommitments')
 const dateInput = document.getElementById('date');
 const timeInput = document.getElementById('time');
 const commitmentInput = document.getElementById('commitment');
-const progressBar = document.getElementById('progress');
 
 // Configurando a data de início e fim corretamente
 const startDate = new Date('2024-12-24T00:00:00Z'); // Ajuste para UTC
-const endDate = new Date('2025-01-02T23:59:59Z'); // Ajuste para UTC
+const endDate = new Date('2025-01-13T23:59:59Z'); // Ajuste para UTC
 
 function generateCalendar() {
     calendar.innerHTML = ''; // Limpa o calendário antes de gerar novamente
@@ -37,24 +36,12 @@ function generateCalendar() {
             };
             commitmentDiv.appendChild(completeButton);
 
-            // Criar botão de exclusão
-            const deleteButton = document.createElement('button');
-            deleteButton.textContent = 'Excluir';
-            deleteButton.classList.add('deleteCommitment');
-            deleteButton.onclick = function() {
-                deleteCommitment(currentDate.toISOString().split('T')[0], commitment, commitmentDiv);
-            };
-
-            commitmentDiv.appendChild(deleteButton);
             dayDiv.appendChild(commitmentDiv);
         });
 
         calendar.appendChild(dayDiv);
         currentDate.setUTCDate(currentDate.getUTCDate() + 1); // Muda a data para o próximo dia
     }
-
-    // Atualiza a barra de conquistas sempre que o calendário é gerado
-    updateProgressBar();
 }
 
 function addCommitment() {
@@ -90,15 +77,7 @@ function addCommitment() {
             };
             commitmentDiv.appendChild(completeButton);
 
-            // Criar botão de exclusão
-            const deleteButton = document.createElement('button');
-            deleteButton.textContent = 'Excluir';
-            deleteButton.classList.add('deleteCommitment');
-            deleteButton.onclick = function() {
-                deleteCommitment(selectedDate, formattedCommitment, commitmentDiv);
-            };
-
-            commitmentDiv.appendChild(deleteButton);
+            // Não adiciona mais o botão de exclusão
             dayDiv.appendChild(commitmentDiv);
         } else {
             console.error('Dia não encontrado no calendário para a data:', selectedDate);
@@ -111,7 +90,6 @@ function addCommitment() {
         console.error('Por favor, preencha a data, horário e compromisso.');
     }
 }
-
 function markAsComplete(commitment, commitmentDiv) {
     commitment.completed = true;
 
@@ -119,14 +97,59 @@ function markAsComplete(commitment, commitmentDiv) {
     commitmentDiv.style.textDecoration = "line-through"; // Risca o texto
     commitmentDiv.style.color = "grey"; // Muda a cor para cinza
 
+    // Adiciona o efeito de "estrela"
+    createStarEffect(commitmentDiv);
+
     // Atualiza o armazenamento local
     updateLocalStorage(commitment);
-
-    // Atualiza a barra de conquistas
-    updateProgressBar();
 }
 
-// Função para atualizar o localStorage
+function createStarEffect(commitmentDiv) {
+    const starCount = 5; // Número de estrelas a serem mostradas
+    for (let i = 0; i < starCount; i++) {
+        const star = document.createElement('div');
+        star.classList.add('star');
+        
+        // Adiciona a estrela ao body
+        document.body.appendChild(star);
+
+        // Varia a posição horizontal e vertical
+        star.style.left = `${50 + (Math.random() * 20 - 10)}%`;
+        star.style.top = `${50 + (Math.random() * 20 - 10)}%`;
+
+        // Remove a estrela após a animação
+        star.addEventListener('animationend', () => {
+            star.remove();
+        });
+    }
+
+    // Criar a imagem adicional
+    const img = document.createElement('img');
+    img.src = 'photo.png.JPG'; // Nome do arquivo da imagem local
+    img.style.position = 'fixed';
+    img.style.left = '50%'; // Centralização horizontal
+    img.style.top = '50%'; // Centralização vertical
+    img.style.transform = 'translate(-50%, -50%)'; // Ajusta para o centro
+    img.style.width = '100px'; // Ajuste o tamanho conforme necessário
+    img.style.height = '100px'; // Ajuste o tamanho conforme necessário
+    img.style.opacity = 0; // Começa invisível
+    img.style.transition = 'opacity 1s'; // Efeito de transição de opacidade
+
+    // Adiciona a imagem ao body
+    document.body.appendChild(img);
+
+    // Anima a imagem para aparecer
+    requestAnimationFrame(() => {
+        img.style.opacity = 1; // Efeitos de fade-in
+    });
+    
+    // Remove a imagem após um tempo
+    setTimeout(() => {
+        img.remove();
+    }, 3000); // Mantém a imagem visível por 3 segundos
+}
+
+
 function updateLocalStorage(commitment) {
     const allCommitments = getAllCommitments(); // Recupera todas as tarefas
 
@@ -135,17 +158,6 @@ function updateLocalStorage(commitment) {
     const existingCommitments = JSON.parse(localStorage.getItem(date)) || [];
     const updatedCommitments = existingCommitments.map(c => c.text === commitment.text ? commitment : c);
     localStorage.setItem(date, JSON.stringify(updatedCommitments));
-}
-
-function updateProgressBar() {
-    const allCommitments = getAllCommitments();
-
-    const completedCount = allCommitments.filter(commitment => commitment.completed).length;
-    const totalCount = allCommitments.length;
-
-    // Calcula a porcentagem
-    const percentage = totalCount > 0 ? (completedCount / totalCount) * 100 : 0; 
-    progressBar.style.width = `${percentage}%`;
 }
 
 function getAllCommitments() {
@@ -157,26 +169,10 @@ function getAllCommitments() {
     return allCommitments;
 }
 
-function deleteCommitment(date, commitment, commitmentDiv) {
-    const existingCommitments = JSON.parse(localStorage.getItem(date)) || [];
-    const updatedCommitments = existingCommitments.filter(c => c.text !== commitment.text); // Remove o compromisso
-    localStorage.setItem(date, JSON.stringify(updatedCommitments)); // Atualiza o Local Storage
-
-    // Remove apenas o compromisso do DOM
-    commitmentDiv.remove(); 
-
-    // Atualiza a barra de conquistas
-    updateProgressBar();
-
-    // Log para depuração
-    console.log('Compromisso excluído:', commitment);
-}
-
 // Função para limpar todos os compromissos
 function clearAllCommitments() {
     localStorage.clear(); // Limpa o localStorage
     generateCalendar(); // Regenera o calendário
-    updateProgressBar(); // Reseta a barra
     console.log('Todos os compromissos foram removidos.');
 }
 

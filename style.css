@@ -1,71 +1,112 @@
+/* Estilo básico do corpo */
 body {
-    font-family: 'Comic Sans MS', cursive, sans-serif;
-    background-color: #fce4ec;
-    color: #6a1b9a;
+    font-family: 'Comic Sans MS', cursive, sans-serif; /* Fonte divertida e amigável */
+    background-color: #fce4ec; /* Cor de fundo suave */
+    color: #6a1b9a; /* Texto em uma cor agradável */
     margin: 20px;
-    text-align: center;
+    text-align: center; /* Centro do texto */
 }
 
+/* Estilo do calendário */
 #calendar {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    gap: 15px;
+    display: grid; /* Usando grid para layout do calendário */
+    grid-template-columns: repeat(7, 1fr); /* 7 colunas para 7 dias */
+    gap: 15px; /* Espaçamento entre os dias */
 }
 
+/* Estilo dos dias do calendário */
 .day {
-    border: 2px dashed #ff4081;
-    background-color: #ffffff;
-    border-radius: 12px;
+    border: 2px dashed #ff4081; /* Borda rosa */
+    background-color: #ffffff; /* Fundo branco */
+    border-radius: 12px; /* Borda arredondada */
     padding: 10px;
     position: relative;
-    transition: transform 0.3s;
-    height: 200px; /* Aumentando a altura */
+    transition: transform 0.3s; /* Transição para efeito de hover */
+    height: 200px; /* Aumentando a altura dos dias */
 }
 
 .day:hover {
-    transform: scale(1.05);
+    transform: scale(1.05); /* Efeito de aumentar ao passar o mouse */
 }
 
+/* Estilo dos slots de tempo */
 .time-slot {
     margin: 5px 0;
     font-weight: bold;
-    color: #ad1457;
+    color: #ad1457; /* Cor para destacar a hora */
 }
 
+/* Estilo dos compromissos */
 .commitment {
-    background-color: #ffebee;
-    color: #c2185b;
+    background-color: #ffebee; /* Fundo suave para compromissos */
+    color: #c2185b; /* Cor para o texto dos compromissos */
     margin: 2px;
-    border-radius: 8px;
+    border-radius: 8px; /* Borda arredondada para os compromissos */
     padding: 5px;
-    font-weight: bold;
+    font-weight: bold; /* Texto em negrito */
 }
 
+/* Estilo do formulário de compromisso */
 #commitment-form {
     margin-top: 20px;
     padding: 20px;
-    border: 2px solid #ff80ab;
-    border-radius: 12px;
-    background-color: #f8bbd0;
+    border: 2px solid #ff80ab; /* Borda do formulário */
+    border-radius: 12px; /* Borda arredondada */
+    background-color: #f8bbd0; /* Fundo suave para o formulário */
 }
 
+/* Estilo dos inputs do formulário */
 input[type='date'], input[type='text'] {
-    border: 1px solid #e1bee7;
-    border-radius: 5px;
+    border: 1px solid #e1bee7; /* Borda suave para os campos de entrada */
+    border-radius: 5px; /* Borda arredondada */
     padding: 10px;
-    margin: 5px;
+    margin: 5px; /* Margem entre os campos */
 }
 
+/* Estilo dos botões */
 button {
-    background-color: #ab47bc;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    padding: 10px 15px;
-    cursor: pointer;
-    font-size: 16px;
+    background-color: #ab47bc; /* Cor de fundo dos botões */
+    color: white; /* Texto dos botões em branco */
+    border: none; /* Remove borda padrão */
+    border-radius: 5px; /* Borda arredondada dos botões */
+    padding: 10px 15px; /* Padding dos botões */
+    cursor: pointer; /* Cursor em forma de ponteiro */
+    font-size: 16px; /* Tamanho da fonte para botões */
 }
 
+/* Efeito de hover nos botões */
 button:hover {
-    background-color: #8e24aa;
+    background-color: #8e24aa; /* Cor de fundo dos botões ao passar o mouse */
+}
+
+/* Estilo das estrelas */
+.star {
+    position: fixed; /* Usa fixed para que a estrela fique centralizada na tela */
+    width: 40px; /* Tamanho da estrela */
+    height: 40px; /* Tamanho da estrela */
+    background: url('https://static.vecteezy.com/system/resources/thumbnails/036/626/964/small_2x/ai-generated-gold-star-on-transparent-background-png.png') no-repeat center center; /* Imagem da estrela */
+    background-size: contain; /* Ajusta a imagem para se adequar */
+    opacity: 0; /* Começa invisível */
+    animation: shine 1s forwards, sparkle 1.5s 0.5s forwards; /* Animação de entrada + brilho */
+}
+
+/* Animação da estrela */
+@keyframes shine {
+    0% {
+        opacity: 1; /* Visível no início */
+    }
+    100% {
+        opacity: 0; /* Torna invisível */
+    }
+}
+
+/* Animação de brilho */
+@keyframes sparkle {
+    0%, 100% {
+        opacity: 0.8; /* Opacidade um pouco mais baixa */
+    }
+    50% {
+        transform: scale(2); /* Aumenta o tamanho da estrela para 200% */
+        opacity: 1; /* Opacidade total */
+    }
 }
