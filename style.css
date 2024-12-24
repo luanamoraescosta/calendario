@@ -1,0 +1,71 @@
+body {
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+    background-color: #fce4ec;
+    color: #6a1b9a;
+    margin: 20px;
+    text-align: center;
+}
+
+#calendar {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 15px;
+}
+
+.day {
+    border: 2px dashed #ff4081;
+    background-color: #ffffff;
+    border-radius: 12px;
+    padding: 10px;
+    position: relative;
+    transition: transform 0.3s;
+    height: 200px; /* Aumentando a altura */
+}
+
+.day:hover {
+    transform: scale(1.05);
+}
+
+.time-slot {
+    margin: 5px 0;
+    font-weight: bold;
+    color: #ad1457;
+}
+
+.commitment {
+    background-color: #ffebee;
+    color: #c2185b;
+    margin: 2px;
+    border-radius: 8px;
+    padding: 5px;
+    font-weight: bold;
+}
+
+#commitment-form {
+    margin-top: 20px;
+    padding: 20px;
+    border: 2px solid #ff80ab;
+    border-radius: 12px;
+    background-color: #f8bbd0;
+}
+
+input[type='date'], input[type='text'] {
+    border: 1px solid #e1bee7;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 5px;
+}
+
+button {
+    background-color: #ab47bc;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 15px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+button:hover {
+    background-color: #8e24aa;
+}
